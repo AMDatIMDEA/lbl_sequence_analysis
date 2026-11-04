@@ -33,7 +33,7 @@ the manuscript (all 108 films, all properties; checked to machine precision).
 | Repeatability test | Alg/Chi | 10 | Ten independently prepared films |
 
 **Not used in the paper:** the R/I sets (16 sequences) and their near-neighbour variants
-NR/NI (8). Their data only appear in `archive/`. In the original NS/SS thickness file they are the
+NR/NI (8). Their data are not included in this repository (only in the original, unorganised files). In the original NS/SS thickness file they are the
 labels N9–N16, which were left out of `thickness.xlsx`.
 
 ## 2. Folder structure
@@ -47,10 +47,16 @@ raw_data/                     data as measured (never modified by the scripts)
   growth_test/growth_test_thickness.xlsx
   repeatability_test/repeatability_tensile_curves.xlsx, repeatability_thickness.xlsx
 scripts/                      annotated analysis, numbered in execution order
-processed_data/               outputs of the scripts (CSV unless stated)
+processed_data/               outputs of the scripts (CSV unless stated), one sub-folder per topic
+  thickness/                    film thickness (01)
+  mech_properties/              tensile properties of films and architectures (02)
+  sequences/                    composition, NCD matrix, transition counts/fractions (03)
+  parent_variant/               NCD and D_pair of every S -> NS/SS pair (03)
+  pair_statistics/              pairing-bias descriptors (03) and SI Section 9 tables (08)
+  statistics/                   group statistics and parent-variant changes (04, 05)
+  growth_test/                  growth data and fits (06)
+  repeatability_test/           repeatability results (07)
 figures/                      figures produced by the scripts
-archive/original_upload_part1/  the complete original folder, untouched (old notebooks,
-                                intermediate files, R/I/NR/NI data, DSC/TGA, ...)
 ```
 
 ### Where each raw file came from (original name → new name)
@@ -65,7 +71,7 @@ archive/original_upload_part1/  the complete original folder, untouched (old not
 | `raw_data/repeatability_test/repeatability_thickness.xlsx` | `new_analysis/rep_thickness.xlsx`, reorganised (one row per reading, per-film summary, README sheet; values unchanged) |
 
 These are the only versions that reproduce the manuscript values. Several files with the
-same or similar names exist in the archive and give **different** numbers, e.g.
+same or similar names exist among the original files and give **different** numbers, e.g.
 `final_analysis/S_DMA_NEW.xlsx`, `Thickness S1-S16 and pure 1.xlsx` (different S13–S16 and P).
 
 Label conventions inside the raw workbooks:
@@ -78,11 +84,11 @@ Label conventions inside the raw workbooks:
 | Script | Does | Main outputs |
 |---|---|---|
 | `lbl_common.py` | Paths, settings, property definitions, readers | – |
-| `01_thickness.py` | Reads all thickness readings | `thickness_readings.csv`, `thickness_films.csv` |
-| `02_mechanical_properties.py` | Properties of every curve, joined with thickness | `mechanical_properties_films.csv`, `mechanical_properties_architectures.csv`, `mechprop_paper_format.xlsx`, `figures/stress_strain_*.png` |
-| `03_sequence_analysis.py` | Composition, NCD (Eq. 1), directed transitions, pairing bias, D_pair | `sequence_composition.csv`, `ncd_matrix.csv`, `parent_variant_ncd.csv`, `transition_counts.csv`, `transition_fractions.csv`, `pairing_bias.csv`, `parent_variant_dpair.csv` |
+| `01_thickness.py` | Reads all thickness readings | `thickness/thickness_readings.csv`, `thickness/thickness_films.csv` |
+| `02_mechanical_properties.py` | Properties of every curve, joined with thickness | `mech_properties/mechanical_properties_films.csv`, `mech_properties/mechanical_properties_architectures.csv`, `mech_properties/mechprop_paper_format.xlsx`, `figures/stress_strain_*.png` |
+| `03_sequence_analysis.py` | Composition, NCD (Eq. 1), directed transitions, pairing bias, D_pair | `sequences/` (`sequence_composition.csv`, `ncd_matrix.csv`, `transition_counts.csv`, `transition_fractions.csv`), `parent_variant/` (`parent_variant_ncd.csv`, `parent_variant_dpair.csv`), `pair_statistics/pairing_bias.csv` |
 | `04_statistics.py` | Descriptive statistics, Welch ANOVA, Tukey HSD (S vs SS vs NS), Pearson matrix | `statistics/*.csv`, `figures/FigS3_*.png`, `figures/FigS4_*.png` |
-| `05_parent_variant.py` | S→NS and S→SS changes, Wilcoxon, Spearman vs NCD | `statistics/parent_variant_changes.csv`, `SS_wilcoxon.csv`, `NS_spearman_vs_NCD.csv` |
+| `05_parent_variant.py` | S→NS and S→SS changes, Wilcoxon, Spearman vs NCD | `statistics/parent_variant_changes.csv`, `statistics/SS_wilcoxon.csv`, `statistics/NS_spearman_vs_NCD.csv` |
 | `06_growth_test.py` | Growth curves and model fits | `growth_test/*.csv`, `figures/LbL_growth_models.png` |
 | `07_repeatability_test.py` | Ten Alg/Chi films, CVs with/without film 7 | `repeatability_test/*.csv`, `figures/repeatability_curves.png` |
 | `08_pair_statistics.py` / `.ipynb` | SI Section 9 (transitions heat map, pairing-bias regression, D_pair) | `pair_statistics/*.csv`, `figures/pair_stats_*.png/.pdf` |
@@ -102,6 +108,3 @@ Label conventions inside the raw workbooks:
 
 `mechprop_paper_format.xlsx` keeps the original column names so that older notebooks
 (and `08_pair_statistics`) can read it unchanged.
-
-
-
