@@ -1,0 +1,6 @@
+property,wilcoxon_p,median_abs_change_pct
+thickness_um,0.3125,19.27430849803081
+E_slope_MPa_per_pct,0.7421875,28.18354086711877
+UTS_MPa,0.9453125,31.457505634362136
+strain_at_break_pct,0.546875,25.73289454650476
+toughness_MPa_pct,0.3828125,42.80901028305517
