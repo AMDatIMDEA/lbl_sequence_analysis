@@ -103,35 +103,5 @@ Label conventions inside the raw workbooks:
 `mechprop_paper_format.xlsx` keeps the original column names so that older notebooks
 (and `08_pair_statistics`) can read it unchanged.
 
-## 4. Known issues found while organising the data
 
-These are reproduced as they are (so the scripts match the manuscript) and documented here.
-They should be checked before submission.
 
-1. **Units.** With strain in %, the paper's "Young's modulus (MPa)" is a slope in **MPa per %**
-   (×100 for MPa, i.e. roughly 0.3–4 GPa) and "toughness (MJ m⁻³)" is in **MPa·%** (÷100 for MJ m⁻³).
-   The column "Thickness_mm" is in µm. The repeatability analysis already used MJ m⁻³ and MPa.
-2. **NS2 sequence: three versions exist.** Swap 1↔3 (`paper_analysis/sequences_final.txt` in the
-   upload), 5↔17 (`new_analysis/sequences.txt`, Table S1 of the SI) and 5↔21 (corrected file,
-   confirmed as deposited). This repository uses 5↔21; Table S1 must say the same.
-3. **NCD values of the NS set in the manuscript are not the NS distances.** The paper's NCD
-   matrix (`paper_analysis/NCD_distance_matrix.xlsx`) was computed (zlib, upper triangle) from
-   `new_analysis/sequences.txt`, where NS1 and NS3–NS8 are **identical to their parents** (the
-   swaps were never applied in that file). The reported S→NS NCD (0.051–0.095, mean 0.076) is
-   therefore the self-distance NCD(S, S) of zlib. With the sequences actually deposited,
-   S→NS NCD = 0.16–0.24 (mean 0.215), i.e. NS are *more* distant than SS (mean 0.065), not
-   similar to them. The SS values in the manuscript are correct. See `parent_variant_ncd.csv`.
-4. **Number of thickness readings.** The SI says 10 readings per film; the raw files have
-   5 (S, P), 3 (NS, SS) and 8 (repeatability test).
-5. **SS layer count.** SS films have 99 layers (24 of the first-deposited polyanion), not 100.
-6. **Thickness typo.** NS8 film 3: readings 32, 33, 33 µm but the recorded film mean is 33.0
-   (used in the paper; 32.67 would be correct). Reported by `01_thickness.py`.
-7. **Growth test x axis.** Data are at 5–50 **bilayers** (10–100 layers); an earlier version of
-   the figure labelled 10–100 as bilayers. The script plots bilayers.
-8. **Repeatability film 7.** One thickness reading is 0.150 mm (others 0.012–0.031 mm), likely a
-   transcription error; its curve also starts at negative strain. The original analysis
-   excluded film 7; both versions are reported.
-9. **Raw instrument files for S and P.** The S and P curves used in the paper are not in
-    `original_data/` (those S curves are from the earlier batch with R/I). *Pending part 2.*
-10. **Library design.** The code that generated the candidate sequences and ran the max–min
-    diversity selection is not in part 1 (only a demo with random A/B strings). *Pending part 2.*
